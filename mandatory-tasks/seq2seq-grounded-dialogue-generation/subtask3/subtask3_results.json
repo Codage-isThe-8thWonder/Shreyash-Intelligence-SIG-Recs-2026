@@ -1,0 +1,141 @@
+{
+  "main_table": [
+    {
+      "model": "Human reference",
+      "BLEU": 100.0,
+      "ROUGE-1": 100.0,
+      "ROUGE-L": 100.0,
+      "distinct-1": 0.21,
+      "distinct-2": 0.69,
+      "avg_len": 14.7,
+      "unk%": 0.0,
+      "doc_overlap%": 12.19
+    },
+    {
+      "model": "Retrieval (history only)",
+      "BLEU": 0.33,
+      "ROUGE-1": 9.68,
+      "ROUGE-L": 8.45,
+      "distinct-1": 0.16,
+      "distinct-2": 0.47,
+      "avg_len": 14.61,
+      "unk%": 0.0,
+      "doc_overlap%": 3.84
+    },
+    {
+      "model": "Retrieval (+doc rerank)",
+      "BLEU": 0.3,
+      "ROUGE-1": 10.53,
+      "ROUGE-L": 9.11,
+      "distinct-1": 0.15,
+      "distinct-2": 0.44,
+      "avg_len": 16.06,
+      "unk%": 0.0,
+      "doc_overlap%": 11.96
+    },
+    {
+      "model": "Ungrounded seq2seq, greedy",
+      "BLEU": 1.18,
+      "ROUGE-1": 12.61,
+      "ROUGE-L": 11.09,
+      "distinct-1": 0.01,
+      "distinct-2": 0.02,
+      "avg_len": 14.87,
+      "unk%": 0.0,
+      "doc_overlap%": 2.59
+    },
+    {
+      "model": "Grounded seq2seq, greedy",
+      "BLEU": 1.14,
+      "ROUGE-1": 13.22,
+      "ROUGE-L": 11.4,
+      "distinct-1": 0.01,
+      "distinct-2": 0.02,
+      "avg_len": 13.83,
+      "unk%": 0.0,
+      "doc_overlap%": 8.11
+    },
+    {
+      "model": "Ungrounded seq2seq, beam-3",
+      "BLEU": 1.01,
+      "ROUGE-1": 12.59,
+      "ROUGE-L": 11.43,
+      "distinct-1": 0.0,
+      "distinct-2": 0.01,
+      "avg_len": 17.6,
+      "unk%": 0.0,
+      "doc_overlap%": 0.0
+    },
+    {
+      "model": "Grounded seq2seq, beam-3",
+      "BLEU": 1.01,
+      "ROUGE-1": 11.85,
+      "ROUGE-L": 10.7,
+      "distinct-1": 0.01,
+      "distinct-2": 0.01,
+      "avg_len": 17.21,
+      "unk%": 0.0,
+      "doc_overlap%": 5.41
+    }
+  ],
+  "ablation": [
+    {
+      "model": "Grounded, correct doc",
+      "BLEU": 1.14,
+      "ROUGE-1": 13.22,
+      "ROUGE-L": 11.4,
+      "distinct-1": 0.01,
+      "distinct-2": 0.02,
+      "avg_len": 13.83,
+      "unk%": 0.0,
+      "doc_overlap%": 8.11
+    },
+    {
+      "model": "Grounded, WRONG doc",
+      "BLEU": 1.24,
+      "ROUGE-1": 12.9,
+      "ROUGE-L": 11.06,
+      "distinct-1": 0.01,
+      "distinct-2": 0.02,
+      "avg_len": 14.25,
+      "unk%": 0.0,
+      "doc_overlap%": 3.62
+    },
+    {
+      "model": "Grounded, empty doc",
+      "BLEU": 0.7,
+      "ROUGE-1": 10.89,
+      "ROUGE-L": 9.66,
+      "distinct-1": 0.01,
+      "distinct-2": 0.02,
+      "avg_len": 17.4,
+      "unk%": 0.0,
+      "doc_overlap%": 0.32
+    },
+    {
+      "model": "Ungrounded (no doc encoder)",
+      "BLEU": 1.18,
+      "ROUGE-1": 12.61,
+      "ROUGE-L": 11.09,
+      "distinct-1": 0.01,
+      "distinct-2": 0.02,
+      "avg_len": 14.87,
+      "unk%": 0.0,
+      "doc_overlap%": 2.59
+    }
+  ],
+  "doc_attention_mass": {
+    "correct_doc": 0.5772936112592241,
+    "wrong_doc": 0.5759037437878615
+  },
+  "sizes": {
+    "train": 5376,
+    "val": 645,
+    "test": 686,
+    "vocab": 10961
+  },
+  "best_val_loss": {
+    "grounded": 5.10255141691728,
+    "ungrounded": 5.1131416667591445
+  }
+}
