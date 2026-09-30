@@ -4,3 +4,4 @@ non-mandatory-tasks/quantvision-quantization-segmentation/QuantVision_dataset.zi
 mandatory-tasks/shopee-product-matching/dataset
 
 mandatory-tasks/seq2seq-grounded-dialogue-generation/subtask1/best_seq2seq.pt
+mandatory-tasks/seq2seq-grounded-dialogue-generation/subtask2/best_attn.pt
