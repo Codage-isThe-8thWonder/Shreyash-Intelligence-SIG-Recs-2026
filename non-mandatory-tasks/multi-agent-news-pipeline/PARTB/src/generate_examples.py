@@ -8,191 +8,380 @@ from qa_agent import QAAgent
 from fact_checker_agent import FactCheckerAgent
 
 
+# ============================================================
+# PATHS
+# ============================================================
+
 PART_B_DIR = Path(__file__).resolve().parent.parent
 EXAMPLES_DIR = PART_B_DIR / "examples"
 
+EXAMPLES_DIR.mkdir(
+    parents=True,
+    exist_ok=True
+)
 
-def load_real_examples():
+
+# ============================================================
+# HELPER
+# ============================================================
+
+def save_json(data, filepath):
+    """
+    Save Python object as formatted JSON.
+    """
+
+    with open(
+        filepath,
+        "w",
+        encoding="utf-8"
+    ) as file:
+
+        json.dump(
+            data,
+            file,
+            indent=4,
+            ensure_ascii=False
+        )
+
+
+# ============================================================
+# LOAD DATASET
+# ============================================================
+
+def load_newsqa():
+
+    print("\nLoading NewsQA dataset...")
 
     dataset = load_dataset(
         "lucadiliello/newsqa",
-        split="train",
+        split="train"
     )
+
+    print(
+        f"Dataset loaded: {len(dataset)} rows"
+    )
+
+    return dataset
+
+
+# ============================================================
+# SUMMARIZER EXAMPLES
+# ============================================================
+
+def generate_summarizer_examples(dataset):
+
+    print("\n" + "=" * 70)
+    print("GENERATING SUMMARIZER EXAMPLES")
+    print("=" * 70)
+
+    agent = SummarizerAgent()
 
     examples = []
 
-    seen_articles = set()
+    selected_indices = [
+        0,
+        1,
+        2
+    ]
 
-    for row in dataset:
+    for example_number, index in enumerate(
+        selected_indices,
+        start=1
+    ):
+
+        row = dataset[index]
 
         article_id = str(
             row["key"]
         )
 
-        if article_id in seen_articles:
-            continue
-
-        if not row["context"]:
-            continue
-
-        seen_articles.add(
-            article_id
-        )
-
-        examples.append(row)
-
-        if len(examples) >= 3:
-            break
-
-    return examples
-
-
-def main():
-
-    EXAMPLES_DIR.mkdir(
-        parents=True,
-        exist_ok=True
-    )
-
-    examples = load_real_examples()
-
-    print(
-        f"Selected {len(examples)} real NewsQA articles."
-    )
-
-    # ------------------------------------------------
-    # Summarizer examples
-    # ------------------------------------------------
-
-    summarizer = SummarizerAgent()
-
-    summary_results = []
-
-    for index, row in enumerate(examples, start=1):
-
-        summary = summarizer.run(
+        article = str(
             row["context"]
         )
 
-        summary_results.append(
+        print(
+            f"\nRunning summarizer example "
+            f"{example_number}/3..."
+        )
+
+        summary = agent.run(
+            article
+        )
+
+        examples.append(
             {
-                "example_id": index,
-                "article_id": str(row["key"]),
-                "input_article": row["context"],
-                "output_summary": summary,
+                "example_id": example_number,
+                "article_id": article_id,
+                "input_article": article,
+                "summary": summary
             }
         )
 
+        print("Done.")
+
+    output_file = (
+        EXAMPLES_DIR /
+        "summarizer_examples.json"
+    )
+
+    save_json(
+        examples,
+        output_file
+    )
+
+    print(
+        f"\nSaved: {output_file}"
+    )
+
+
+# ============================================================
+# QA EXAMPLES
+# ============================================================
+
+def generate_qa_examples(dataset):
+
+    print("\n" + "=" * 70)
+    print("GENERATING QA EXAMPLES")
+    print("=" * 70)
+
+    agent = QAAgent()
+
+    examples = []
+
+    # --------------------------------------------------------
+    # Select rows containing valid questions and answers
+    # --------------------------------------------------------
+
+    selected_rows = []
+
+    for row in dataset:
+
+        question = row["question"]
+        answers = row["answers"]
+
+        if (
+            question
+            and answers
+            and len(answers) > 0
+            and row["context"]
+        ):
+
+            selected_rows.append(row)
+
+        if len(selected_rows) == 3:
+            break
+
+    # --------------------------------------------------------
+    # Run QA agent
+    # --------------------------------------------------------
+
+    for example_number, row in enumerate(
+        selected_rows,
+        start=1
+    ):
+
+        article_id = str(
+            row["key"]
+        )
+
+        question = str(
+            row["question"]
+        )
+
+        ground_truth = [
+            str(answer)
+            for answer in row["answers"]
+        ]
+
         print(
-            f"Generated summary example {index}"
+            f"\nRunning QA example "
+            f"{example_number}/3..."
         )
 
-    with open(
-        EXAMPLES_DIR / "summarizer_examples.json",
-        "w",
-        encoding="utf-8",
-    ) as file:
-
-        json.dump(
-            summary_results,
-            file,
-            indent=2,
-            ensure_ascii=False,
+        result = agent.run(
+            question,
+            top_k=5
         )
 
-    # ------------------------------------------------
-    # QA examples
-    # ------------------------------------------------
-
-    qa_agent = QAAgent()
-
-    qa_results = []
-
-    for index, row in enumerate(examples, start=1):
-
-        result = qa_agent.run(
-            row["question"],
-            top_k=5,
-        )
-
-        qa_results.append(
+        examples.append(
             {
-                "example_id": index,
-                "article_id": str(row["key"]),
-                "question": row["question"],
-                "ground_truth_answer": row[
-                    "answers"
+                "example_id": example_number,
+                "article_id": article_id,
+                "question": question,
+                "ground_truth_answers": ground_truth,
+                "agent_answer": result["answer"],
+                "evidence": result["evidence"]
+            }
+        )
+
+        print("Done.")
+
+    output_file = (
+        EXAMPLES_DIR /
+        "qa_examples.json"
+    )
+
+    save_json(
+        examples,
+        output_file
+    )
+
+    print(
+        f"\nSaved: {output_file}"
+    )
+
+
+# ============================================================
+# FACT CHECKER EXAMPLES
+# ============================================================
+
+def generate_fact_checker_examples():
+
+    print("\n" + "=" * 70)
+    print("GENERATING FACT CHECKER EXAMPLES")
+    print("=" * 70)
+
+    agent = FactCheckerAgent()
+
+    # --------------------------------------------------------
+    # Three deliberately different claim types
+    # --------------------------------------------------------
+
+    claims = [
+
+        {
+            "example_id": 1,
+            "claim": (
+                "The serial killings involved 19 victims."
+            ),
+            "expected_verdict": "corroborated"
+        },
+
+        {
+            "example_id": 2,
+            "claim": (
+                "The high court upheld Pandher's "
+                "death sentence."
+            ),
+            "expected_verdict": "contradicted"
+        },
+
+        {
+            "example_id": 3,
+            "claim": (
+                "Pandher was born in 1965."
+            ),
+            "expected_verdict": "unverifiable"
+        }
+    ]
+
+    examples = []
+
+    for item in claims:
+
+        print(
+            f"\nRunning fact-checker "
+            f"example {item['example_id']}/3..."
+        )
+
+        result = agent.run(
+            item["claim"],
+            top_k=5
+        )
+
+        examples.append(
+            {
+                "example_id": item["example_id"],
+                "claim": item["claim"],
+                "expected_verdict": item[
+                    "expected_verdict"
                 ],
-                "agent_output": result,
+                "agent_verdict": result[
+                    "verdict"
+                ],
+                "explanation": result[
+                    "explanation"
+                ],
+                "evidence": result[
+                    "evidence"
+                ]
             }
         )
 
-        print(
-            f"Generated QA example {index}"
-        )
+        print("Done.")
 
-    with open(
-        EXAMPLES_DIR / "qa_examples.json",
-        "w",
-        encoding="utf-8",
-    ) as file:
+    output_file = (
+        EXAMPLES_DIR /
+        "fact_checker_examples.json"
+    )
 
-        json.dump(
-            qa_results,
-            file,
-            indent=2,
-            ensure_ascii=False,
-        )
+    save_json(
+        examples,
+        output_file
+    )
 
-    # ------------------------------------------------
-    # Fact Checker examples
-    # ------------------------------------------------
+    print(
+        f"\nSaved: {output_file}"
+    )
 
-    fact_checker = FactCheckerAgent()
 
-    fact_results = []
+# ============================================================
+# MAIN
+# ============================================================
 
-    for index, row in enumerate(examples, start=1):
+def main():
 
-        # Use the actual answer-bearing text as a simple
-        # corpus-grounded claim source.
-        claim = (
-            f"The article contains information answering "
-            f"the question: {row['question']}"
-        )
+    print("=" * 70)
+    print("PART B EXAMPLE GENERATION")
+    print("=" * 70)
 
-        result = fact_checker.run(
-            claim,
-            top_k=5,
-        )
+    dataset = load_newsqa()
 
-        fact_results.append(
-            {
-                "example_id": index,
-                "article_id": str(row["key"]),
-                "claim": claim,
-                "agent_output": result,
-            }
-        )
+    # --------------------------------------------------------
+    # 1. Summarizer
+    # --------------------------------------------------------
 
-        print(
-            f"Generated fact-check example {index}"
-        )
+    generate_summarizer_examples(
+        dataset
+    )
 
-    with open(
-        EXAMPLES_DIR / "fact_checker_examples.json",
-        "w",
-        encoding="utf-8",
-    ) as file:
+    # --------------------------------------------------------
+    # 2. QA
+    # --------------------------------------------------------
 
-        json.dump(
-            fact_results,
-            file,
-            indent=2,
-            ensure_ascii=False,
-        )
+    generate_qa_examples(
+        dataset
+    )
 
-    print("\nExamples generated successfully.")
+    # --------------------------------------------------------
+    # 3. Fact Checker
+    # --------------------------------------------------------
+
+    generate_fact_checker_examples()
+
+    # --------------------------------------------------------
+    # DONE
+    # --------------------------------------------------------
+
+    print("\n" + "=" * 70)
+    print("ALL PART B EXAMPLES GENERATED")
+    print("=" * 70)
+
+    print(
+        "\nFiles created:"
+    )
+
+    print(
+        "1. PartB/examples/summarizer_examples.json"
+    )
+
+    print(
+        "2. PartB/examples/qa_examples.json"
+    )
+
+    print(
+        "3. PartB/examples/fact_checker_examples.json"
+    )
 
 
 if __name__ == "__main__":
