@@ -1,0 +1,19 @@
+{
+  "seed": 42,
+  "split": "GroupShuffleSplit 60/20/20 by label_group",
+  "n_pairs": {
+    "train": 22668,
+    "val": 7726,
+    "test": 7774
+  },
+  "neg_mix": "50% random / 50% hard (word TF-IDF mined)",
+  "char_config": "char_wb 2-4",
+  "hybrid_weights": [
+    0.0,
+    0.8,
+    0.2
+  ],
+  "final_model": "Exp4 LogReg on pair features",
+  "final_threshold": 0.2989184787879341,
+  "embedding_model": "paraphrase-multilingual-MiniLM-L12-v2"
+}

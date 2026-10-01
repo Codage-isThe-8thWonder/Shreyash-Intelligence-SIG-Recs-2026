@@ -1,0 +1,5 @@
+method,best_thr_val,val_meanF1,test_meanF1
+TF-IDF word,0.48,0.7441,0.7512
+TF-IDF char,0.52,0.7783,0.7829
+Embeddings,0.8,0.6562,0.6615
+Hybrid,0.52,0.7787,0.7838

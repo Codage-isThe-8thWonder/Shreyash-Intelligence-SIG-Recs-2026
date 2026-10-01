@@ -1,0 +1,8 @@
+config,thr,val_F1,test_P,test_R,test_F1,note
+Text only (TF-IDF word),0.4,0.797,0.8837,0.7892,0.7893,
+Image only (CLIP),0.84,0.6706,0.9531,0.5834,0.664,
+BASELINE: 0.5*TF-IDF word + 0.5*CLIP,0.56,0.8437,0.9178,0.8288,0.8345,
+"Exp1: word+CLIP, tuned w=0.4",0.6,0.8441,0.9218,0.8209,0.8305,
+"Exp2: char+CLIP, tuned w=0.5",0.58,0.8515,0.8945,0.8675,0.8475,
+Exp3a: char+CLIP (no pHash),0.58,0.8515,0.8945,0.8675,0.8475,
+Exp3b: char+CLIP + pHash rule,0.6,0.8538,0.9194,0.8471,0.8478,

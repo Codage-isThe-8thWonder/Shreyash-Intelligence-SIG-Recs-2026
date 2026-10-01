@@ -1,0 +1,17 @@
+{
+  "seed": 42,
+  "n_images": 10001,
+  "val_listings": 4880,
+  "test_listings": 5121,
+  "pairs": {
+    "val": 5460,
+    "test": 5568
+  },
+  "final_model": "Baseline",
+  "final_threshold": 0.45434170961380005,
+  "models": [
+    "resnet50_imagenet_2048d",
+    "clip-ViT-B-32_512d"
+  ],
+  "negatives": "50% random + 50% hard (title TF-IDF mined)"
+}
