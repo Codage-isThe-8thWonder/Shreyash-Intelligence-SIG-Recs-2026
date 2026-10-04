@@ -1,0 +1,31 @@
+{
+    "trace_id": "20261004_234015_495142",
+    "started_at": "2026-10-04T23:40:15.495142",
+    "input": {
+        "type": "article",
+        "text": "NEW DELHI, India (CNN) -- A high court in northern India on Friday acquitted a wealthy businessman facing the death sentence for the killing of a teen in a case dubbed \"the house of horrors.\"\n\n\n\nMoninder Singh Pandher was sentenced to death by a lower court in February.\n\n\n\nThe teen was one of 19 victims -- children and young women -- in one of the most gruesome serial killings in India in recent years.\n\n\n\nThe Allahabad high court has acquitted Moninder Singh Pandher, his lawyer Sikandar B. Kochar told CNN.\n\n\n\nPandher and his domestic employee Surinder Koli were sentenced to death in February by a lower court for the rape and murder of the 14-year-old.\n\n\n\nThe high court upheld Koli's death sentence, Kochar said.\n\n\n\nThe two were arrested two years ago after body parts packed in plastic bags were found near their home in Noida, a New Delhi suburb. Their home was later dubbed a \"house of horrors\" by the Indian media.\n\n\n\nPandher was not named a main suspect by investigators initially, but was summoned as co-accused during the trial, Kochar said.\n\n\n\nKochar said his client was in Australia when the teen was raped and killed.\n\n\n\nPandher faces trial in the remaining 18 killings and could remain in custody, the attorney said."
+    },
+    "route": [
+        "SummarizerAgent"
+    ],
+    "steps": [
+        {
+            "step": 1,
+            "agent": "SummarizerAgent",
+            "input": "NEW DELHI, India (CNN) -- A high court in northern India on Friday acquitted a wealthy businessman facing the death sentence for the killing of a teen in a case dubbed \"the house of horrors.\"\n\n\n\nMoninder Singh Pandher was sentenced to death by a lower court in February.\n\n\n\nThe teen was one of 19 victims -- children and young women -- in one of the most gruesome serial killings in India in recent years.\n\n\n\nThe Allahabad high court has acquitted Moninder Singh Pandher, his lawyer Sikandar B. Kochar told CNN.\n\n\n\nPandher and his domestic employee Surinder Koli were sentenced to death in February by a lower court for the rape and murder of the 14-year-old.\n\n\n\nThe high court upheld Koli's death sentence, Kochar said.\n\n\n\nThe two were arrested two years ago after body parts packed in plastic bags were found near their home in Noida, a New Delhi suburb. Their home was later dubbed a \"house of horrors\" by the Indian media.\n\n\n\nPandher was not named a main suspect by investigators initially, but was summoned as co-accused during the trial, Kochar said.\n\n\n\nKochar said his client was in Australia when the teen was raped and killed.\n\n\n\nPandher faces trial in the remaining 18 killings and could remain in custody, the attorney said.",
+            "status": "success",
+            "output": {
+                "summary": "The Allahabad High Court in northern India has acquitted businessman Moninder Singh Pandher of the rape and murder of a 14-year-old girl in the infamous \"house of horrors\" case. Pandher and his domestic employee, Surinder Koli, had previously received the death sentence from a lower court, but his lawyer argued Pandher was in Australia at the time of the crime. While the high court overturned Pandher's sentence, it upheld the death penalty for Koli. Pandher is expected to remain in custody as he still faces trial for the remaining 18 killings tied to the serial murder case."
+            }
+        }
+    ],
+    "final_output": {
+        "type": "article_summary",
+        "status": "success",
+        "summary": "The Allahabad High Court in northern India has acquitted businessman Moninder Singh Pandher of the rape and murder of a 14-year-old girl in the infamous \"house of horrors\" case. Pandher and his domestic employee, Surinder Koli, had previously received the death sentence from a lower court, but his lawyer argued Pandher was in Australia at the time of the crime. While the high court overturned Pandher's sentence, it upheld the death penalty for Koli. Pandher is expected to remain in custody as he still faces trial for the remaining 18 killings tied to the serial murder case."
+    },
+    "status": "success",
+    "finished_at": "2026-10-04T23:40:24.435177",
+    "example_id": 1,
+    "description": "Article-only summarization"
+}
