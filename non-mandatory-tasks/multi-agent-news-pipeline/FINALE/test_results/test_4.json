@@ -1,0 +1,28 @@
+{
+    "trace_id": "20261005_001916_941849",
+    "started_at": "2026-10-05T00:19:16.941849",
+    "input": {
+        "type": "claim",
+        "claim": "The high court upheld Pandher's death sentence."
+    },
+    "route": [
+        "FactCheckerAgent"
+    ],
+    "steps": [
+        {
+            "step": 1,
+            "agent": "FactCheckerAgent",
+            "input": "The high court upheld Pandher's death sentence.",
+            "status": "failed",
+            "error": "503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}"
+        }
+    ],
+    "final_output": {
+        "status": "failed",
+        "error": "503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}"
+    },
+    "status": "failed",
+    "finished_at": "2026-10-05T00:19:20.872079",
+    "test_case_id": 4,
+    "test_case_name": "Contradicted claim"
+}

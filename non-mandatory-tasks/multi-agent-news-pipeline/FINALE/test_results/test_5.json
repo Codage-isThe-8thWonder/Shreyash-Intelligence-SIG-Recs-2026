@@ -1,0 +1,45 @@
+{
+    "trace_id": "20261005_001935_879560",
+    "started_at": "2026-10-05T00:19:35.879560",
+    "input": {
+        "type": "claim",
+        "claim": "Pandher was born in 1965."
+    },
+    "route": [
+        "FactCheckerAgent"
+    ],
+    "steps": [
+        {
+            "step": 1,
+            "agent": "FactCheckerAgent",
+            "input": "Pandher was born in 1965.",
+            "status": "success",
+            "output": {
+                "verdict": "unverifiable",
+                "explanation": "The provided evidence mentions that Pandher was sentenced to death for rape and murder, but it contains no information regarding his birth year.",
+                "evidence": [],
+                "confidence": "low",
+                "evidence_assessment": {
+                    "verdict": "unverifiable",
+                    "confidence": "low",
+                    "reason": "No supporting or contradicting evidence was returned."
+                }
+            }
+        }
+    ],
+    "final_output": {
+        "verdict": "unverifiable",
+        "explanation": "The provided evidence mentions that Pandher was sentenced to death for rape and murder, but it contains no information regarding his birth year.",
+        "evidence": [],
+        "confidence": "low",
+        "evidence_assessment": {
+            "verdict": "unverifiable",
+            "confidence": "low",
+            "reason": "No supporting or contradicting evidence was returned."
+        }
+    },
+    "status": "success",
+    "finished_at": "2026-10-05T00:19:37.941634",
+    "test_case_id": 5,
+    "test_case_name": "Unverifiable claim"
+}
